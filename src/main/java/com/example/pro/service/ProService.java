@@ -19,8 +19,8 @@ public class ProService {
         ResultDto result = new ResultDto();
         ProductDto productDto = new ProductDto(dto.getCommodity(), dto.getDestination(), new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "T16:00:00.000Z");
         Map<String, Object> map = new HashMap<>();
-        map.put("productStr", productDto);
-        map.put("queryStr", ParamDto.parse(dto));
+        map.put("productParam", productDto);
+        map.put("queryParam", ParamDto.parse(dto));
         return map;
     }
 }

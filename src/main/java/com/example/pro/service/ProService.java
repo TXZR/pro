@@ -21,6 +21,17 @@ public class ProService {
         Map<String, Object> map = new HashMap<>();
         map.put("productParam", productDto);
         map.put("queryParam", ParamDto.parse(dto));
+        map.put("speed", dto.getSpeed());
+        String product = null;
+        switch (dto.getCommodity()) {
+            case "General Cargo, not restr" :
+                product = "General Cargo";
+                break;
+            case "Chemicals, not restr, temp-sens" :
+                product = "Passive Temp Support";
+                break;
+        }
+        map.put("product", product);
         return map;
     }
 }

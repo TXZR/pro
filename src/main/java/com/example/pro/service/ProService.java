@@ -3,14 +3,24 @@ package com.example.pro.service;
 import com.example.pro.config.TywRestrict;
 import com.example.pro.dto.LCQueryDto;
 import com.example.pro.dto.ParamDto;
+import com.example.pro.dto.ProductDto;
 import com.example.pro.dto.ResultDto;
 import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ProService {
     @TywRestrict
     public Object query(LCQueryDto dto) {
         ResultDto result = new ResultDto();
-        return ParamDto.parse(dto);
+        ProductDto productDto = new ProductDto(dto.getCommodity(), dto.getDestination(), new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "T16:00:00.000Z");
+        Map<String, Object> map = new HashMap<>();
+        map.put("productStr", productDto);
+        map.put("queryStr", ParamDto.parse(dto));
+        return map;
     }
 }

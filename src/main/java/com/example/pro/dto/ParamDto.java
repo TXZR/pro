@@ -11,7 +11,6 @@ import java.util.Map;
 
 @Data
 public class ParamDto {
-    private ApiHeader apiHeader = new ApiHeader();
     private BestRoutesRequest bestRoutesRequest;
 
     public static ParamDto parse(LCQueryDto lcQueryDto) {

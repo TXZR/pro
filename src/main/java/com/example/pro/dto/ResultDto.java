@@ -21,7 +21,6 @@ public class ResultDto {
     private String stops;
     private String price;
     private String surcharge;
-    private boolean hasChildren = true;
     private List<ResultDto> children;
 
     public static List<ResultDto> parse(LCRespDto lcRespDto, Double weight) {
@@ -70,7 +69,6 @@ public class ResultDto {
                         main.getChildren().add(children);
                         children.setId(String.format("%s-%s", bookableRoute.getRouteNumber(), flightSegment.getSegmentSequenceNumber()));
                         children.setCarrier(new ArrayList<>());
-                        children.setHasChildren(false);
                         children.getCarrier().add(flightSegment.getSegmentFlightDesignator().getAirlineDesignator() + flightSegment.getSegmentFlightDesignator().getFlightNumber());
                         children.getCarrier().add("A/C type:" + flightSegment.getSegmentAircraftType());
                         children.setDeparture(ProUtils.parseDate(flightSegment.getSegmentFlightDepatureTimeLocal()));

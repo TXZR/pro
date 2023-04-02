@@ -6,16 +6,12 @@ import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Data
 public class ResultDto {
+    private String id;
     private List<String> carrier;
     private List<String> comment;
     private String origin;
@@ -25,6 +21,7 @@ public class ResultDto {
     private String stops;
     private String price;
     private String surcharge;
+    private boolean hasChildren = true;
     private List<ResultDto> children;
 
     public static List<ResultDto> parse(LCRespDto lcRespDto, Double weight) {
@@ -32,11 +29,13 @@ public class ResultDto {
         List<ResultDto> resultDtoList = new ArrayList<>();
         try {
             if(!CollectionUtils.isEmpty(lcRespDto.getBestRoutesResponse().getBookableRoutes())) {
+                int i = 0;
                 for (LCRespDto.BookableRoute bookableRoute : lcRespDto.getBestRoutesResponse().getBookableRoutes()) {
                     ResultDto main = new ResultDto();
                     List<ResultDto> childrenList = new ArrayList<>();
                     main.setChildren(childrenList);
                     resultDtoList.add(main);
+                    main.setId(i++ + "");
                     //先解析出主
                     List<LCRespDto.FlightSegment> list = bookableRoute.getFlightSegments();
                     main.setCarrier(new ArrayList<>());

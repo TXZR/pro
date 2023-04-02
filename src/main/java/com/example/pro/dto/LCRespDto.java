@@ -24,6 +24,7 @@ public class LCRespDto {
 
     @Data
     public static class BookableRoute {
+        private Integer routeNumber;
         private String routeOrigin;
         private String routeDestination;
         private String earliestDeliveryTimeOfRouting;

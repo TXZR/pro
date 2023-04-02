@@ -35,7 +35,7 @@ public class ResultDto {
                     List<ResultDto> childrenList = new ArrayList<>();
                     main.setChildren(childrenList);
                     resultDtoList.add(main);
-                    main.setId(i++ + "");
+                    main.setId(bookableRoute.getRouteNumber().toString());
                     //先解析出主
                     List<LCRespDto.FlightSegment> list = bookableRoute.getFlightSegments();
                     main.setCarrier(new ArrayList<>());
@@ -68,6 +68,7 @@ public class ResultDto {
                         main.getCarrier().add(flightSegment.getSegmentFlightDesignator().getAirlineDesignator() + flightSegment.getSegmentFlightDesignator().getFlightNumber());
                         ResultDto children = new ResultDto();
                         main.getChildren().add(children);
+                        children.setId(String.format("%s-%s", bookableRoute.getRouteNumber(), flightSegment.getSegmentSequenceNumber()));
                         children.setCarrier(new ArrayList<>());
                         children.setHasChildren(false);
                         children.getCarrier().add(flightSegment.getSegmentFlightDesignator().getAirlineDesignator() + flightSegment.getSegmentFlightDesignator().getFlightNumber());

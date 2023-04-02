@@ -1,6 +1,7 @@
 package com.example.pro.dto;
 
 import lombok.Data;
+import org.thymeleaf.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -28,8 +29,22 @@ public class ParamDto {
                 break;
             case "Chemicals, not restr, temp-sens":
                 bestRoutesRequest.getProductDetail().setCommodityCode("TSCHEMICAL");
-                bestRoutesRequest.getProductDetail().setFromTemperature(2);
-                bestRoutesRequest.getProductDetail().setToTemperature(8);
+                if(!StringUtils.isEmpty(lcQueryDto.getTemperature())) {
+                    switch (lcQueryDto.getTemperature()) {
+                        case "1":
+                            bestRoutesRequest.getProductDetail().setFromTemperature(-20);
+                            bestRoutesRequest.getProductDetail().setToTemperature(-10);
+                            break;
+                        case "2":
+                            bestRoutesRequest.getProductDetail().setFromTemperature(2);
+                            bestRoutesRequest.getProductDetail().setToTemperature(8);
+                            break;
+                        case "3":
+                            bestRoutesRequest.getProductDetail().setFromTemperature(15);
+                            bestRoutesRequest.getProductDetail().setToTemperature(25);
+                            break;
+                    }
+                }
                 break;
         }
         bestRoutesRequest.setShipmentTotals(new ShipmentTotals());

@@ -1,10 +1,10 @@
 package com.example.pro.service;
 
+import com.alibaba.fastjson.JSON;
 import com.example.pro.config.TywRestrict;
-import com.example.pro.dto.LCQueryDto;
-import com.example.pro.dto.ParamDto;
-import com.example.pro.dto.ProductDto;
-import com.example.pro.dto.ResultDto;
+import com.example.pro.constant.TywConstant;
+import com.example.pro.dto.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -12,12 +12,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class ProService {
     @TywRestrict
     public Object query(LCQueryDto dto) {
-        ResultDto result = new ResultDto();
-        ProductDto productDto = new ProductDto(dto.getCommodity(), dto.getDestination(), new SimpleDateFormat("YYYY-MM-dd").format(new Date()) + "T16:00:00.000Z");
+        ProductDto productDto = new ProductDto(dto.getCommodity(), dto.getDestination(), new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + "T16:00:00.000Z");
         Map<String, Object> map = new HashMap<>();
         map.put("productParam", productDto);
         map.put("queryParam", ParamDto.parse(dto));
@@ -32,6 +32,17 @@ public class ProService {
                 break;
         }
         map.put("product", product);
-        return map;
+        LCRespDto lcRespDto = pythonCall(map);
+        if(!"0".equals(lcRespDto.getReturnCode().getReturnCodeNumber())) {
+            throw new RuntimeException("查询错误！");
+        }
+        return ResultDto.parse(lcRespDto, dto.getWeight());
     }
+
+    private LCRespDto pythonCall(Map<String, Object> map) {
+        String body = HttpTemplate.httpPost(TywConstant.PY_URL, map);
+        log.info("查询python返回:{}", body);
+        return JSON.parseObject(body, LCRespDto.class);
+    }
+
 }

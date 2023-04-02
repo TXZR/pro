@@ -69,6 +69,7 @@ public class ResultDto {
                         ResultDto children = new ResultDto();
                         main.getChildren().add(children);
                         children.setCarrier(new ArrayList<>());
+                        children.setHasChildren(false);
                         children.getCarrier().add(flightSegment.getSegmentFlightDesignator().getAirlineDesignator() + flightSegment.getSegmentFlightDesignator().getFlightNumber());
                         children.getCarrier().add("A/C type:" + flightSegment.getSegmentAircraftType());
                         children.setDeparture(ProUtils.parseDate(flightSegment.getSegmentFlightDepatureTimeLocal()));

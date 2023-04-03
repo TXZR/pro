@@ -23,12 +23,11 @@ public class ResultDto {
     private String surcharge;
     private List<ResultDto> children;
 
-    public static List<ResultDto> parse(LCRespDto lcRespDto, Double weight, boolean jq, Double money) {
-        BigDecimal w = new BigDecimal(weight);
+    public static List<ResultDto> parse(LCRespDto lcRespDto, boolean jq, Double money) {
         List<ResultDto> resultDtoList = new ArrayList<>();
         try {
             if(!CollectionUtils.isEmpty(lcRespDto.getBestRoutesResponse().getBookableRoutes())) {
-                int i = 0;
+                BigDecimal w = BigDecimal.valueOf(lcRespDto.getBestRoutesResponse().getShipmentTotals().getChargeableWeight());
                 for (LCRespDto.BookableRoute bookableRoute : lcRespDto.getBestRoutesResponse().getBookableRoutes()) {
                     ResultDto main = new ResultDto();
                     List<ResultDto> childrenList = new ArrayList<>();
@@ -64,7 +63,7 @@ public class ResultDto {
                     if(priceInformation.isSurchargeIncludedInRevenuePrice()) {
                         main.setSurcharge("0 CNY/kg");
                     } else {
-                        BigDecimal surcharge = new BigDecimal(surchargeInformation.getTotalSurchargesInRequestedCurrency());
+                        BigDecimal surcharge = BigDecimal.valueOf(surchargeInformation.getTotalSurchargesInRequestedCurrency());
                         main.setSurcharge(surcharge.divide(w, 2, RoundingMode.HALF_UP).toPlainString() + " CNY/kg");
                     }
                     for (LCRespDto.FlightSegment flightSegment : list) {

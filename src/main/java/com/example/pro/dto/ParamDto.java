@@ -56,7 +56,7 @@ public class ParamDto {
         BigDecimal volume = BigDecimal.valueOf(lcQueryDto.getVolume());
         int i = 1;
         bestRoutesRequest.getShipmentTotals().setChargeableWeight(lcQueryDto.getVolume());
-        BigDecimal nwight = weight.divide(piece, 2, RoundingMode.HALF_UP);
+        BigDecimal nwight = weight.divide(piece, 1, RoundingMode.HALF_UP);
         BigDecimal h = volume.divide(piece, 2, RoundingMode.HALF_UP);
         if(nwight.compareTo(new BigDecimal("150")) >= 0 || h.compareTo(new BigDecimal("0.46")) >= 0) {
             PieceGroupInformation pieceGroupInformation = new PieceGroupInformation();

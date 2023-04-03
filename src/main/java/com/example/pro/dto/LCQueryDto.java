@@ -14,5 +14,4 @@ public class LCQueryDto {
     private Double volume;
     private boolean dryIce;
     private String temperature;
-
 }

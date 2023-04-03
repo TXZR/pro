@@ -20,6 +20,15 @@ public class LCRespDto {
     @Data
     public static class BestRoutesResponse {
         private List<BookableRoute> bookableRoutes;
+        private ShipmentTotals shipmentTotals;
+    }
+
+    @Data
+    public static class ShipmentTotals {
+        private Double chargeableWeight;
+        private Double netVolume;
+        private Double netWeight;
+        private Integer numberOfPieces;
     }
 
     @Data

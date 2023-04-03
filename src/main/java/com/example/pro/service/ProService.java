@@ -41,7 +41,7 @@ public class ProService {
         if(!"0".equals(lcRespDto.getReturnCode().getReturnCodeNumber())) {
             throw new RuntimeException("查询错误！");
         }
-        return ResultDto.parse(lcRespDto, dto.getWeight(), jq, 3.0);
+        return ResultDto.parse(lcRespDto, jq, 3.0);
     }
 
     private LCRespDto pythonCall(Map<String, Object> map) {
